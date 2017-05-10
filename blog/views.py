@@ -36,7 +36,7 @@ def post_list(request):
     else:
         base_template = 'blog/base.html'
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'blog/post_list.html', {'posts': posts, 'base_template': base_template, 'meta':request.META['HTTP_USER_AGENT']})
+    return render(request, 'blog/post_list.html', {'posts': posts, 'base_template': base_template})
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
