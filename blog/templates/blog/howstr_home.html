@@ -23,7 +23,7 @@
             </div>
             <h1>{{ card.title }}</a></h1>
             <p>{{ card.text|linebreaksbr }}</p>
-            <img src="{{ MEDIA_URL }}{{ card.image.url }}" />
+            <img style="max-width:250px;" src="{{ MEDIA_URL }}{{ card.image.url }}" />
         </div>
     {% endfor %}
                 </div>
