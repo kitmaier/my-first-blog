@@ -17,14 +17,19 @@
             <div class="row">
                 <div class="col-md-8">
     {% for card in cards %}
-        <div class="post">
-            <div class="date">
-                {{ card.created_ts }}
-            </div>
+<div class="container-outer" style="overflow-x: scroll; width: 100%; height: 100%;">
+   <div class="container-inner" style="width: 1000px; height:100%; ">
+       <table><tr>
+           {% for n in "xxxxx" %}
+           <td><div class="post">
             <h1>{{ card.title }}</a></h1>
             <p>{{ card.text|linebreaksbr }}</p>
             <img style="max-width:250px;" src="{{ MEDIA_URL }}{{ card.image.url }}" />
-        </div>
+        </td>
+           {% endfor %}
+        </tr></table>
+   </div>
+</div>
     {% endfor %}
                 </div>
             </div>
