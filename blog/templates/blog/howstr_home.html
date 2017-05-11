@@ -1,0 +1,33 @@
+{% load staticfiles %}
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC '-//WAPFORUM//DTD XHTML Mobile 1.0//EN' 'http://www.wapforum.org/DTD/xhtml-mobile10.dtd'> 
+<html xmlns='http://www.w3.org/1999/xhtml'>
+    <head>
+        <title>Django Girls blog (mobile)</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    </head>
+    <body>
+        <div class="page-header">
+            <h1><a href="/">Howstr Card List</a></h1>
+        </div>
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+    {% for card in cards %}
+        <div class="post">
+            <div class="date">
+                {{ card.created_ts }}
+            </div>
+            <h1>{{ card.title }}</a></h1>
+            <p>{{ card.text|linebreaksbr }}</p>
+            <img src="{{ MEDIA_URL }}{{ card.image.url }}" />
+        </div>
+    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

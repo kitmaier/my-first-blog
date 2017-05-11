@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Post
+from .models import Post, Card
 from .forms import PostForm
 
 # list of mobile User Agents
@@ -68,3 +68,10 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+
+def howstr_home(request):
+    cards = Card.objects.filter(created_ts__lte=timezone.now()).order_by('created_ts') #.order_by('seq_num')
+    return render(request, 'blog/howstr_home.html', {'cards':cards})
+
+
