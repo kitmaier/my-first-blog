@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
     <style>
@@ -24,7 +25,7 @@
             <div class="row">
                 <div class="col-md-8">
                     {% for card in cards %}
-                        <button type="button" id="id_button_{{ card.title }}">(Loading)</button>
+                        <button type="button" class="action-button shadow animate blue" id="id_button_{{ card.title }}">-Loading-</button>
                         <div class="container-outer" style="overflow-x: scroll; width: 100%; height: 100%;">
                            <div class="container-inner" style="width: 1000px; height:100%; ">
                                <table><tr>
@@ -59,8 +60,9 @@
                     success: function(data) {
                         if(data.checkbox) {
                             $("#id_button_"+title).text("YES");
+                            $("#id_button_"+title).addClass("green").removeClass("blue");
                         } else {
-                            $("#id_button_"+title).text("NO");
+                            $("#id_button_"+title).text("NO");                            $("#id_button_"+title).addClass("blue").removeClass("green");
                         }
                     }
                 });
@@ -73,6 +75,7 @@
                         dataType: "json",
                         success: function(data) {
                             $("#id_button_"+title).text("NO");
+                            $("#id_button_"+title).addClass("blue").removeClass("green");
                         }
                     });
                 } else {
@@ -82,6 +85,7 @@
                         dataType: "json",
                         success: function(data) {
                             $("#id_button_"+title).text("YES");
+                            $("#id_button_"+title).addClass("green").removeClass("blue");
                         }
                     });
                 }
