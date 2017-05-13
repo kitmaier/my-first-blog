@@ -26,19 +26,32 @@
                 <div class="col-md-8">
                         <div class="container-outer" style="overflow-x: scroll; width: 100%; height: 100%;">
                            <div class="container-inner" style="width: 1000px; height:100%; ">
-                               <table><tr>
+                               <table>
+                               <tr>
                     {% for card in cards %}
                                    <td>
                                     <h1>{{ card.title }}</h1>
                                     <p>{{ card.text|linebreaksbr }}</p>
+                                </td>
+                    {% endfor %}
+                                </tr>
+                               <tr>
+                    {% for card in cards %}
+                                   <td>
                                     <img style="max-width:250px;" src="{{ card.image.url }}" />
-                                    <div style="padding:10px"/>
+                                </td>
+                    {% endfor %}
+                                </tr>
+                               <tr>
+                    {% for card in cards %}
+                                   <td>
                                     <div style="text-align:center">
                                         <button type="button" class="action-button shadow animate blue" id="id_button_{{ card.title }}">-Loading-</button>
                                     </div>
                                 </td>
                     {% endfor %}
-                                </tr></table>
+                                </tr>
+                               </table>
                            </div>
                         </div>
                 </div>
