@@ -24,26 +24,23 @@
         <div class="content container">
             <div class="row">
                 <div class="col-md-8">
-                    {% for card in cards %}
-                        <div class="float-center">
-                            <div class="float-center-child">
-                                <button type="button" class="action-button shadow animate blue" id="id_button_{{ card.title }}">-Loading-</button>
-                            </div>
-                        </div>
                         <div class="container-outer" style="overflow-x: scroll; width: 100%; height: 100%;">
                            <div class="container-inner" style="width: 1000px; height:100%; ">
                                <table><tr>
-                                   {% for n in "xxxxx" %}
-                                   <td><div class="post">
-                                    <h1>{{ card.title }}</a></h1>
+                    {% for card in cards %}
+                                   <td>
+                                    <h1>{{ card.title }}</h1>
                                     <p>{{ card.text|linebreaksbr }}</p>
                                     <img style="max-width:250px;" src="{{ card.image.url }}" />
+                                    <div style="padding:10px"/>
+                                    <div style="text-align:center">
+                                        <button type="button" class="action-button shadow animate blue" id="id_button_{{ card.title }}">-Loading-</button>
+                                    </div>
                                 </td>
-                                   {% endfor %}
+                    {% endfor %}
                                 </tr></table>
                            </div>
                         </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
