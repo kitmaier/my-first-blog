@@ -25,7 +25,11 @@
             <div class="row">
                 <div class="col-md-8">
                     {% for card in cards %}
-                        <button type="button" class="action-button shadow animate blue" id="id_button_{{ card.title }}">-Loading-</button>
+                        <div class="float-center">
+                            <div class="float-center-child">
+                                <button type="button" class="action-button shadow animate blue" id="id_button_{{ card.title }}">-Loading-</button>
+                            </div>
+                        </div>
                         <div class="container-outer" style="overflow-x: scroll; width: 100%; height: 100%;">
                            <div class="container-inner" style="width: 1000px; height:100%; ">
                                <table><tr>
@@ -58,11 +62,13 @@
                     url: 'checkbox/what/'+title,
                     dataType: "json",
                     success: function(data) {
+                        button = $("#id_button_"+title);
                         if(data.checkbox) {
-                            $("#id_button_"+title).text("YES");
-                            $("#id_button_"+title).addClass("green").removeClass("blue");
+                            button.text("YES");
+                            button.addClass("green").removeClass("blue");
                         } else {
-                            $("#id_button_"+title).text("NO");                            $("#id_button_"+title).addClass("blue").removeClass("green");
+                            button.text("NO");
+                            button.addClass("blue").removeClass("green");
                         }
                     }
                 });
@@ -74,8 +80,10 @@
                         url: 'checkbox/no/'+title,
                         dataType: "json",
                         success: function(data) {
-                            $("#id_button_"+title).text("NO");
-                            $("#id_button_"+title).addClass("blue").removeClass("green");
+                            button = $("#id_button_"+title);
+                            button.text("NO");
+                            button.addClass("blue").removeClass("green");
+                            button.blur();
                         }
                     });
                 } else {
@@ -84,8 +92,10 @@
                         url: 'checkbox/yes/'+title,
                         dataType: "json",
                         success: function(data) {
-                            $("#id_button_"+title).text("YES");
-                            $("#id_button_"+title).addClass("green").removeClass("blue");
+                            button = $("#id_button_"+title);
+                            button.text("YES");
+                            button.addClass("green").removeClass("blue");
+                            button.blur();
                         }
                     });
                 }
