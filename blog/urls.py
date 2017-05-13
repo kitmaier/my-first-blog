@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^post/new/$', views.post_new, name='post_new'),
     url(r'^post/(?P<pk>\d+)/edit/$', views.post_edit, name='post_edit'),
     url(r'^howstr/$', views.howstr_home, name='howstr_home'),
+    url(r'^howstr/checkbox/(yes|no|what)/(.*)$', views.howstr_checkbox, name='howstr_checkbox'),
 ] 
 
 #if settings.DEBUG:

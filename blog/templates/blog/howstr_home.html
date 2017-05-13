@@ -2,6 +2,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC '-//WAPFORUM//DTD XHTML Mobile 1.0//EN' 'http://www.wapforum.org/DTD/xhtml-mobile10.dtd'> 
 <html xmlns='http://www.w3.org/1999/xhtml'>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script> 
     <head>
         <title>Django Girls blog (mobile)</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -9,11 +11,11 @@
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
-<style>
-table, th, td {
-    padding: 15px;
-}
-</style>
+    <style>
+    table, th, td {
+        padding: 15px;
+    }
+    </style>
     <body>
         <div class="page-header">
             <h1><a href="/">Howstr Card List</a></h1>
@@ -21,23 +23,77 @@ table, th, td {
         <div class="content container">
             <div class="row">
                 <div class="col-md-8">
-    {% for card in cards %}
-<div class="container-outer" style="overflow-x: scroll; width: 100%; height: 100%;">
-   <div class="container-inner" style="width: 1000px; height:100%; ">
-       <table><tr>
-           {% for n in "xxxxx" %}
-           <td><div class="post">
-            <h1>{{ card.title }}</a></h1>
-            <p>{{ card.text|linebreaksbr }}</p>
-            <img style="max-width:250px;" src="{{ MEDIA_URL }}{{ card.image.url }}" />
-        </td>
-           {% endfor %}
-        </tr></table>
-   </div>
-</div>
-    {% endfor %}
+                    {% for card in cards %}
+                        <button type="button" id="id_button_{{ card.title }}">(Loading)</button>
+                        <div class="container-outer" style="overflow-x: scroll; width: 100%; height: 100%;">
+                           <div class="container-inner" style="width: 1000px; height:100%; ">
+                               <table><tr>
+                                   {% for n in "xxxxx" %}
+                                   <td><div class="post">
+                                    <h1>{{ card.title }}</a></h1>
+                                    <p>{{ card.text|linebreaksbr }}</p>
+                                    <img style="max-width:250px;" src="{{ card.image.url }}" />
+                                </td>
+                                   {% endfor %}
+                                </tr></table>
+                           </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
+        <script type="text/javascript">
+            var csrf_token = '{% csrf_token %}';
+            $("body").bind("ajaxSend", function(elm, xhr, s) {
+               if (s.type == "POST") {
+                  xhr.setRequestHeader('X-CSRF-Token', csrf_token);
+               }
+            });
+        </script>
+        <script type="text/javascript">
+            function load_checkbox(title) {
+                $.ajax({
+                    type: 'get', 
+                    url: 'checkbox/what/'+title,
+                    dataType: "json",
+                    success: function(data) {
+                        if(data.checkbox) {
+                            $("#id_button_"+title).text("YES");
+                        } else {
+                            $("#id_button_"+title).text("NO");
+                        }
+                    }
+                });
+            }
+            function update_checkbox(text,title) {
+                if(text=="YES") {
+                    $.ajax({
+                        type: 'get', 
+                        url: 'checkbox/no/'+title,
+                        dataType: "json",
+                        success: function(data) {
+                            $("#id_button_"+title).text("NO");
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: 'get', 
+                        url: 'checkbox/yes/'+title,
+                        dataType: "json",
+                        success: function(data) {
+                            $("#id_button_"+title).text("YES");
+                        }
+                    });
+                }
+            }
+        </script>
+        {% for card in cards %}
+            <script type="text/javascript">
+                load_checkbox("{{ card.title }}");
+                $("#id_button_{{ card.title }}").click(function() {
+                    update_checkbox($(this).text(),"{{ card.title }}");
+                });
+            </script>
+        {% endfor %}
     </body>
 </html>

@@ -26,3 +26,11 @@ class Card(models.Model):
     created_ts = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.title
+
+class Checkbox(models.Model):
+    title = models.CharField(max_length=50)
+    card = models.ForeignKey('Card')
+    created_by = models.ForeignKey('auth.User')
+    created_ts = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return self.title

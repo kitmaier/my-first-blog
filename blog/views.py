@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.utils import timezone
-from .models import Post, Card
+from .models import Post, Card, Checkbox
 from .forms import PostForm
+from django.http import JsonResponse
 
 # list of mobile User Agents
 mobile_uas = [
@@ -73,5 +74,28 @@ def post_edit(request, pk):
 def howstr_home(request):
     cards = Card.objects.filter(created_ts__lte=timezone.now()).order_by('created_ts') #.order_by('seq_num')
     return render(request, 'blog/howstr_home.html', {'cards':cards})
+
+def howstr_checkbox(request,flag,card_title):
+    card = Card.objects.filter(title=card_title).first()
+    if card is None:
+        return JsonResponse({'card': None, 'checkbox': None})
+    else:
+        checkbox_query = Checkbox.objects.filter(card=card).filter(created_by=request.user)
+        checkbox = checkbox_query.exists()
+        result = None
+        if flag=='yes':
+            if checkbox:
+                result = 'doing nothing because value already exists'
+            else:
+                result = Checkbox(title=card.title, card=card, created_by=request.user).save()
+        elif flag=='no':
+            if checkbox:
+                result = checkbox_query.delete()
+            else:
+                result = 'doing nothing because value already empty'
+        else:
+            result = 'returning value in checkbox parameter'
+        return JsonResponse({'card': card_title, 'checkbox': checkbox, 'result':result})
+
 
 
