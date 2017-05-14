@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.utils import timezone
-from .models import Post, Card, Checkbox
+from .models import Post, Card, Checkbox, CardType, Project, ProjectCard, CardLink, ProjectResource , ProjectResult, ProjectStep
 from .forms import PostForm
 from django.http import JsonResponse
 
@@ -70,13 +70,14 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
 
-
 def howstr_home(request):
-    cards = Card.objects.filter(created_ts__lte=timezone.now()).order_by('created_ts') #.order_by('seq_num')
-    return render(request, 'blog/howstr_home.html', {'cards':cards})
+    projectresources = Project.objects.filter(title='Cold Brew Coffee').first().projectresource_set.select_related('resource_card').all()
+    projectsteps = Project.objects.filter(title='Cold Brew Coffee').first().projectstep_set.select_related('step_card').all()
+    projectresults = Project.objects.filter(title='Cold Brew Coffee').first().projectresult_set.select_related('result_card').all()
+    return render(request, 'blog/howstr_home.html', {'projectresources':projectresources, 'projectsteps':projectsteps, 'projectresults':projectresults})
 
-def howstr_checkbox(request,flag,card_title):
-    card = Card.objects.filter(title=card_title).first()
+def howstr_checkbox(request,flag,card_id):
+    card = Card.objects.filter(id=card_id).first()
     if card is None:
         return JsonResponse({'card': None, 'checkbox': None})
     else:
@@ -95,7 +96,7 @@ def howstr_checkbox(request,flag,card_title):
                 result = 'doing nothing because value already empty'
         else:
             result = 'returning value in checkbox parameter'
-        return JsonResponse({'card': card_title, 'checkbox': checkbox, 'result':result})
+        return JsonResponse({'card': card.title, 'checkbox': checkbox, 'result':result})
 
 
 
