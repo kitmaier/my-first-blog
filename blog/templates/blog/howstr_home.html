@@ -165,7 +165,6 @@
                             button = $("#id_button_"+card_id);
                             button.text("NO");
                             button.addClass("blue").removeClass("green");
-                            button.blur();
                         }
                     });
                 } else {
@@ -177,7 +176,6 @@
                             button = $("#id_button_"+card_id);
                             button.text("YES");
                             button.addClass("green").removeClass("blue");
-                            button.blur();
                         }
                     });
                 }
@@ -187,6 +185,7 @@
             <script type="text/javascript">
                 load_checkbox("{{ projectresource.resource_card.id }}");
                 $("#id_button_{{ projectresource.resource_card.id }}").click(function() {
+                    $(this).blur();
                     update_checkbox($(this).text(),"{{ projectresource.resource_card.id }}");
                 });
             </script>
@@ -195,6 +194,7 @@
             <script type="text/javascript">
                 load_checkbox("{{ projectstep.step_card.id }}");
                 $("#id_button_{{ projectstep.step_card.id }}").click(function() {
+                    $(this).blur();
                     update_checkbox($(this).text(),"{{ projectstep.step_card.id }}");
                 });
             </script>
@@ -203,6 +203,7 @@
             <script type="text/javascript">
                 load_checkbox("{{ projectresult.result_card.id }}");
                 $("#id_button_{{ projectresult.result_card.id }}").click(function() {
+                    $(this).blur();
                     update_checkbox($(this).text(),"{{ projectresult.result_card.id }}");
                 });
             </script>
